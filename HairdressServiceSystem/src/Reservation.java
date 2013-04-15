@@ -1,17 +1,24 @@
+import java.util.Calendar;
+import java.util.Date;
 
-public class Reservation {
+public class Reservation implements Comparable<Reservation> {
 	private String name;
 	private String phoneNumber;
-	private String reserveDate;
+	private Date initialHour;
+	private Date finalHour;
 
-	private enum Service {
-		manHaircut, womanHaircut
-	}
-
-	public Reservation(String name, String phoneNumber, String reserveDate) {
+	public Reservation(String name, String phoneNumber, Date initialHour,
+			Date finalHour) {
 		this.setName(name);
 		this.setPhoneNumber(phoneNumber);
-		this.setReserveDate(reserveDate);
+		this.setInitialHour(initialHour);
+		this.setFinalHour(finalHour);
+	}
+	
+	public Calendar getDate(){
+		Calendar c = Calendar.getInstance();
+		c.setTime(initialHour);
+		return c;
 	}
 
 	public String getName() {
@@ -30,11 +37,24 @@ public class Reservation {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getReserveDate() {
-		return reserveDate;
+	public Date getInitialHour() {
+		return initialHour;
 	}
 
-	public void setReserveDate(String reserveDate) {
-		this.reserveDate = reserveDate;
+	public void setInitialHour(Date initialHour) {
+		this.initialHour = initialHour;
+	}
+
+	public Date getFinalHour() {
+		return finalHour;
+	}
+
+	public void setFinalHour(Date finalHour) {
+		this.finalHour = finalHour;
+	}
+
+	@Override
+	public int compareTo(Reservation o) {
+		return getInitialHour().compareTo(o.getInitialHour());
 	}
 }

@@ -1,3 +1,7 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,7 +12,12 @@ public class mainClass {
 	static String name;
 	static String phoneNumber;
 	static String reserveDate;
-
+	static String hour;
+	static Date initialHour;
+	static Date finalHour;
+	static final int man = 30;
+	static final int woman = 45;
+	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
 	private static List<Reservation> list = new ArrayList<Reservation>();
 
 	public static void main(String[] args) {
@@ -28,14 +37,11 @@ public class mainClass {
 				break;
 			}
 			case 2: {
-				System.out.print("Data za iztrivane: ");
-				s.nextLine();
-				delReserve(s.nextLine());
+				delReserve();
 				break;
 			}
 			case 3: {
-				Date date = new Date();
-				showList(date);
+				showList();
 				break;
 			}
 			case 0: {
@@ -49,6 +55,33 @@ public class mainClass {
 	private static void reserve() {
 		Scanner s = new Scanner(System.in);
 
+		System.out.println("1. Mujka podstrijka");
+		System.out.println("2. Jenska podstrijka");
+
+		switch (s.nextInt()) {
+		case 1: {
+			inputReserve(man);
+
+			Reservation reserve = new Reservation(name, phoneNumber,
+					initialHour, finalHour);
+			list.add(reserve);
+			break;
+		}
+		case 2: {
+			inputReserve(woman);
+
+			Reservation reserve = new Reservation(name, phoneNumber,
+					initialHour, finalHour);
+			list.add(reserve);
+			break;
+		}
+		}
+	}
+
+	private static void inputReserve(int minToAdd) {
+		Scanner s = new Scanner(System.in);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+
 		System.out.print("Ime: ");
 		name = s.nextLine();
 
@@ -57,43 +90,69 @@ public class mainClass {
 		do {
 			System.out.print("Data: ");
 			reserveDate = s.nextLine();
-		} while (!VerifyDate.isThisDateValid(reserveDate, "dd/MM/yy"));
+		} while (!VerifyDate.isThisDateValid(reserveDate));
 
-		System.out.println("1. Mujka podstrijka");
-		System.out.println("2. Jenska podstrijka");
+		do {
+			System.out.print("4as: ");
+			hour = s.nextLine();
+		} while (!VerifyDate.isThisHourValid(hour));
 
-		switch (s.nextInt()) {
-		case 1: {
-			Reservation reserve = new Reservation(name, phoneNumber,
-					reserveDate);
-			list.add(reserve);
-			break;
+		try {
+			initialHour = sdf.parse(reserveDate + " " + hour);
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
-		case 2: {
-			Reservation reserve = new Reservation(name, phoneNumber,
-					reserveDate);
-			list.add(reserve);
-			break;
-		}
+		finalHour = VerifyDate.add(initialHour, Calendar.MINUTE, minToAdd);
+
+		if (VerifyDate.isThisHourTaken(reserveDate, initialHour, finalHour,
+				list)) {
+			System.out.println("Chasut e zaet ili ne e v rabotno vreme!");
+			Menu();
 		}
 	}
 
-	private static void delReserve(String date) {
+	private static void delReserve() {
+		Scanner s = new Scanner(System.in);
+		String dateToDelStr = s.nextLine();
+
+		Date dateToDel = new Date();
+		try {
+			dateToDel = sdf.parse(dateToDelStr);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
 		Iterator<Reservation> it = list.iterator();
 		while (it.hasNext()) {
-			if (it.next().getReserveDate().equals(date)) {
+			if (it.next().getInitialHour().equals(dateToDel)) {
 				it.remove();
 				break;
 			}
 		}
 	}
 
-	private static void showList(Date date) {
-		System.out.println("Dnes e: " + date);
-		Iterator<Reservation> it = list.iterator();
-		while (it.hasNext()) {
-			Reservation reserve = it.next();
-			System.out.println(reserve.getReserveDate());
+	private static void showList() {
+		Collections.sort(list);
+
+		Date currDate = new Date();
+		System.out.println("Dnes e: " + currDate);
+
+		Calendar curr = Calendar.getInstance();
+		curr.setTime(currDate);
+
+		for (int i = 0; i < 4; i++) {
+			Iterator<Reservation> it = list.iterator();
+			while (it.hasNext()) {
+				Reservation reserve = it.next();
+
+				if (reserve.getDate().get(Calendar.DATE) == curr.get(Calendar.DATE)) {
+					System.out.println(reserve.getName() + " "
+							+ reserve.getPhoneNumber());
+					System.out.println(reserve.getInitialHour().toString()
+							+ " - " + reserve.getFinalHour().toString());
+				}
+			}
+			curr.add(Calendar.DAY_OF_WEEK, 1);
 		}
 	}
 
