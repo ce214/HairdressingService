@@ -1,4 +1,3 @@
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -14,7 +13,7 @@ public class VerifyDate {
 		sdf.setLenient(false);
 
 		try {
-			Date date = sdf.parse(dateToValidate);
+			sdf.parse(dateToValidate);
 			return true;
 		} catch (ParseException e) {
 			return false;
