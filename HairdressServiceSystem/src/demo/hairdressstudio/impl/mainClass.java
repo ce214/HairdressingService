@@ -1,3 +1,4 @@
+package demo.hairdressstudio.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
+
+import demo.hairdressstudio.Reservation;
 
 public class mainClass {
 	static String name;

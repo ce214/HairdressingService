@@ -1,9 +1,12 @@
+package demo.hairdressstudio.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import demo.hairdressstudio.Reservation;
 
 public class VerifyDate {
 
@@ -47,38 +50,42 @@ public class VerifyDate {
 
 	public static boolean isThisHourTaken(String reserveDate, Date initHour,
 			Date finHour, List<Reservation> list) {
-		boolean flag = false;
-		Iterator<Reservation> it = list.iterator();
 		Reservation reserve;
+		boolean flag = false;
 		
-		sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-		Date beginDay = new Date();
-		Date endDay = new Date();
-		try {
-			beginDay = sdf.parse(reserveDate + " 09:00");
-			endDay = sdf.parse(reserveDate + " 18:00");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
 
-		if (initHour.before(beginDay) || finHour.after(endDay))
-			flag = true;
+		flag = isReservationOK(initHour, finHour, list);
+		return flag;
+	}
+
+	private static boolean isReservationOK(Date initHour, Date finHour, List<Reservation> list) {
+		
+		boolean isOK = true;
+		Iterator<Reservation> it = list.iterator();
+		
+		Reservation reserve;
+		if ((initHour.getHours() < 9) || (finHour.getHours() >= 18 && finHour.getMinutes() > 0))
+			isOK = false;
 		else {
 
-			while (it.hasNext() && !flag) {
+			while (it.hasNext() && isOK) {
 				reserve = it.next();
 				if ((initHour.after(reserve.getInitialHour()) && initHour
 						.before(reserve.getFinalHour()))
 						|| initHour.equals(reserve.getInitialHour())) {
-					flag = true;
+					isOK = false;
 				} else {
 					if (finHour.after(reserve.getInitialHour())
 							&& finHour.before(reserve.getFinalHour()))
-						flag = true;
+						isOK = false;
 				}
 			}
 		}
-		return flag;
+		return isOK;
+	}
+	
+	public static boolean isReservationOK(Reservation reservation, List<Reservation> list){
+		return isReservationOK(reservation.getInitialHour(), reservation.getFinalHour(), list);
 	}
 
 	public static Date add(Date date, int from, int amount) {
