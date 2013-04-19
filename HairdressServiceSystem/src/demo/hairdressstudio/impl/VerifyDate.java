@@ -48,17 +48,8 @@ public class VerifyDate {
 		}
 	}
 
-	public static boolean isThisHourTaken(String reserveDate, Date initHour,
-			Date finHour, List<Reservation> list) {
-		Reservation reserve;
-		boolean flag = false;
-		
-
-		flag = isReservationOK(initHour, finHour, list);
-		return flag;
-	}
-
-	private static boolean isReservationOK(Date initHour, Date finHour, List<Reservation> list) {
+	@SuppressWarnings("deprecation")
+	public static boolean isReservationOK(Date initHour, Date finHour, List<Reservation> list) {
 		
 		boolean isOK = true;
 		Iterator<Reservation> it = list.iterator();

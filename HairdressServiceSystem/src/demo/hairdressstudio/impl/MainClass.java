@@ -9,9 +9,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+import demo.hairdressstudio.ManHaircut;
 import demo.hairdressstudio.Reservation;
+import demo.hairdressstudio.WomanHaircut;
 
-public class mainClass {
+public class MainClass {
 	static String name;
 	static String phoneNumber;
 	static String reserveDate;
@@ -66,7 +68,7 @@ public class mainClass {
 			inputReserve(man);
 
 			Reservation reserve = new Reservation(name, phoneNumber,
-					initialHour, finalHour);
+					initialHour, finalHour, new ManHaircut(name, 30, 5));
 			list.add(reserve);
 			break;
 		}
@@ -74,7 +76,7 @@ public class mainClass {
 			inputReserve(woman);
 
 			Reservation reserve = new Reservation(name, phoneNumber,
-					initialHour, finalHour);
+					initialHour, finalHour, new WomanHaircut(name, 45, 10));
 			list.add(reserve);
 			break;
 		}
@@ -107,7 +109,7 @@ public class mainClass {
 		}
 		finalHour = VerifyDate.add(initialHour, Calendar.MINUTE, minToAdd);
 
-		if (VerifyDate.isThisHourTaken(reserveDate, initialHour, finalHour,
+		if (!VerifyDate.isReservationOK(initialHour, finalHour,
 				list)) {
 			System.out.println("Chasut e zaet ili ne e v rabotno vreme!");
 			Menu();

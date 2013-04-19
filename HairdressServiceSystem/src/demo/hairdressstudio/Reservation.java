@@ -7,13 +7,15 @@ public class Reservation implements Comparable<Reservation> {
 	private String phoneNumber;
 	private Date initialHour;
 	private Date finalHour;
+	Service service;
 
 	public Reservation(String name, String phoneNumber, Date initialHour,
-			Date finalHour) {
+			Date finalHour, Service service) {
 		this.setName(name);
 		this.setPhoneNumber(phoneNumber);
 		this.setInitialHour(initialHour);
 		this.setFinalHour(finalHour);
+		this.service = service;
 	}
 	
 	public Calendar getDate(){

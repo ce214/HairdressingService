@@ -13,6 +13,10 @@ public class HairdressStudioImpl implements HairdressStudio {
 	public HairdressStudioImpl() {
 		list = new ArrayList<Reservation>();
 	}
+	
+	public HairdressStudioImpl(List<Reservation> list) {
+		this.list = list;
+	}
 
 	@Override
 	public boolean addReservation(Reservation reservation) {
@@ -38,6 +42,14 @@ public class HairdressStudioImpl implements HairdressStudio {
 	public List<Reservation> listReservations() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public List<Reservation> getList() {
+		return list;
+	}
+
+	public void setList(List<Reservation> list) {
+		this.list = list;
 	}
 
 }
