@@ -1,8 +1,8 @@
 package demo.hairdressstudio.impl;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,14 +48,16 @@ public class VerifyDate {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	public static boolean isReservationOK(Date initHour, Date finHour, List<Reservation> list) {
-		
+	public static boolean isReservationOK(Calendar initHour, Calendar finHour,
+			List<Reservation> list) {
+
 		boolean isOK = true;
 		Iterator<Reservation> it = list.iterator();
-		
+
 		Reservation reserve;
-		if ((initHour.getHours() < 9) || (finHour.getHours() >= 18 && finHour.getMinutes() > 0))
+		if ((initHour.get(Calendar.HOUR_OF_DAY) < 9)
+				|| (finHour.get(Calendar.HOUR_OF_DAY) >= 18 && finHour
+						.get(Calendar.MINUTE) > 0))
 			isOK = false;
 		else {
 
@@ -74,18 +76,10 @@ public class VerifyDate {
 		}
 		return isOK;
 	}
-	
-	public static boolean isReservationOK(Reservation reservation, List<Reservation> list){
-		return isReservationOK(reservation.getInitialHour(), reservation.getFinalHour(), list);
-	}
 
-	public static Date add(Date date, int from, int amount) {
-		if (date == null) {
-			throw new IllegalArgumentException("The date must not be null");
-		}
-		Calendar c = Calendar.getInstance();
-		c.setTime(date);
-		c.add(from, amount);
-		return c.getTime();
+	public static boolean isReservationOK(Reservation reservation,
+			List<Reservation> list) {
+		return isReservationOK(reservation.getInitialHour(),
+				reservation.getFinalHour(), list);
 	}
 }

@@ -1,16 +1,15 @@
 package demo.hairdressstudio;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Reservation implements Comparable<Reservation> {
 	private String name;
 	private String phoneNumber;
-	private Date initialHour;
-	private Date finalHour;
+	private Calendar initialHour;
+	private Calendar finalHour;
 	Service service;
 
-	public Reservation(String name, String phoneNumber, Date initialHour,
-			Date finalHour, Service service) {
+	public Reservation(String name, String phoneNumber, Calendar initialHour,
+			Calendar finalHour, Service service) {
 		this.setName(name);
 		this.setPhoneNumber(phoneNumber);
 		this.setInitialHour(initialHour);
@@ -18,11 +17,6 @@ public class Reservation implements Comparable<Reservation> {
 		this.service = service;
 	}
 	
-	public Calendar getDate(){
-		Calendar c = Calendar.getInstance();
-		c.setTime(initialHour);
-		return c;
-	}
 
 	public String getName() {
 		return name;
@@ -40,19 +34,19 @@ public class Reservation implements Comparable<Reservation> {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public Date getInitialHour() {
+	public Calendar getInitialHour() {
 		return initialHour;
 	}
 
-	public void setInitialHour(Date initialHour) {
+	public void setInitialHour(Calendar initialHour) {
 		this.initialHour = initialHour;
 	}
 
-	public Date getFinalHour() {
+	public Calendar getFinalHour() {
 		return finalHour;
 	}
 
-	public void setFinalHour(Date finalHour) {
+	public void setFinalHour(Calendar finalHour) {
 		this.finalHour = finalHour;
 	}
 
