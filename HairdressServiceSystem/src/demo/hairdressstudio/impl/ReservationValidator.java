@@ -8,14 +8,15 @@ import demo.hairdressstudio.Reservation;
 
 public class ReservationValidator {
 
-	public static boolean isReservationOK(Calendar initHour, Calendar finHour,
+	public static boolean isReservationOK(Reservation res,
 			List<Reservation> list) {
+		Calendar finHour = calculateFinHour(res.getInitialHour(), res.getService().getDuration());
 
 		boolean isOK = true;
 		Iterator<Reservation> it = list.iterator();
 
 		Reservation reserve;
-		if ((initHour.get(Calendar.HOUR_OF_DAY) < 9)
+		if ((res.getInitialHour().get(Calendar.HOUR_OF_DAY) < 9)
 				|| (finHour.get(Calendar.HOUR_OF_DAY) >= 18 && finHour
 						.get(Calendar.MINUTE) > 0))
 			isOK = false;
@@ -23,13 +24,14 @@ public class ReservationValidator {
 
 			while (it.hasNext() && isOK) {
 				reserve = it.next();
-				if ((initHour.after(reserve.getInitialHour()) && initHour
-						.before(reserve.getFinalHour()))
-						|| initHour.equals(reserve.getInitialHour())) {
+				if ((res.getInitialHour().after(reserve.getInitialHour()) && res
+						.getInitialHour().before(finHour))
+						|| res.getInitialHour()
+								.equals(reserve.getInitialHour())) {
 					isOK = false;
 				} else {
 					if (finHour.after(reserve.getInitialHour())
-							&& finHour.before(reserve.getFinalHour()))
+							&& finHour.before(finHour))
 						isOK = false;
 				}
 			}
@@ -37,9 +39,15 @@ public class ReservationValidator {
 		return isOK;
 	}
 
-	public static boolean isReservationOK(Reservation reservation,
-			List<Reservation> list) {
-		return isReservationOK(reservation.getInitialHour(),
-				reservation.getFinalHour(), list);
+	private static Calendar calculateFinHour(Calendar initialHour, long duration) {
+		Calendar finalHour = Calendar.getInstance();
+		finalHour.set(initialHour.get(Calendar.YEAR),
+				initialHour.get(Calendar.MONTH),
+				initialHour.get(Calendar.DAY_OF_MONTH),
+				initialHour.get(Calendar.HOUR_OF_DAY),
+				initialHour.get(Calendar.MINUTE),
+				initialHour.get(Calendar.SECOND));
+		finalHour.add(Calendar.MINUTE, (int) duration);
+		return finalHour;
 	}
 }

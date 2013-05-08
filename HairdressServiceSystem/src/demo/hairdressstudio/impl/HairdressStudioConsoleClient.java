@@ -7,10 +7,10 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Scanner;
 
+import demo.hairdressstudio.HaircutFactory;
 import demo.hairdressstudio.HairdressStudio;
-import demo.hairdressstudio.ManHaircut;
 import demo.hairdressstudio.Reservation;
-import demo.hairdressstudio.WomanHaircut;
+import demo.hairdressstudio.Service;
 
 public class HairdressStudioConsoleClient {
 	static String name;
@@ -18,12 +18,10 @@ public class HairdressStudioConsoleClient {
 	static String reserveDate;
 	static String hour;
 	static Calendar initialHour = Calendar.getInstance();
-	static Calendar finalHour = Calendar.getInstance();
-	static final int man = 30;
-	static final int woman = 45;
 	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
 	static HairdressStudio hdstudio = new HairdressStudioImpl();
-	
+	static Service service;
+
 	static void Menu() {
 		Scanner s = new Scanner(System.in);
 		while (true) {
@@ -53,32 +51,32 @@ public class HairdressStudioConsoleClient {
 	}
 
 	private static void reserve() {
+		Reservation reserve = null;
+		
 		Scanner s = new Scanner(System.in);
 
 		System.out.println("1. Mujka podstrijka");
 		System.out.println("2. Jenska podstrijka");
 
 		switch (s.nextInt()) {
-		case 1: {
-			inputReserve(man);
-
-			Reservation reserve = new Reservation(name, phoneNumber,
-					initialHour, finalHour, new ManHaircut(name, 30, 5));
-			hdstudio.addReservation(reserve);
+		case 1:
+			service = HaircutFactory.constructManHaircut(name);
+			inputReserve(service.getDuration());
+			reserve = HaircutFactory.constructReservation(name, phoneNumber, initialHour, service);
+			break;
+		case 2: 
+			service = HaircutFactory.constructWomanHaircut(name);
+			inputReserve(service.getDuration());
+			reserve = HaircutFactory.constructReservation(name, phoneNumber, initialHour, service);
 			break;
 		}
-		case 2: {
-			inputReserve(woman);
-
-			Reservation reserve = new Reservation(name, phoneNumber,
-					initialHour, finalHour, new WomanHaircut(name, 45, 10));
-			hdstudio.addReservation(reserve);
-			break;
-		}
-		}
+		if(hdstudio.addReservation(reserve))
+			System.out.println("Success!");
+		else
+			System.out.println("No Success!");
 	}
 
-	private static void inputReserve(int minToAdd) {
+	private static void inputReserve(long duration) {
 		Scanner s = new Scanner(System.in);
 
 		System.out.print("Ime: ");
@@ -101,19 +99,6 @@ public class HairdressStudioConsoleClient {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		finalHour.set(initialHour.get(Calendar.YEAR),
-				initialHour.get(Calendar.MONTH),
-				initialHour.get(Calendar.DAY_OF_MONTH),
-				initialHour.get(Calendar.HOUR_OF_DAY),
-				initialHour.get(Calendar.MINUTE),
-				initialHour.get(Calendar.SECOND));
-		finalHour.add(Calendar.MINUTE, minToAdd);
-
-		if (!ReservationValidator.isReservationOK(initialHour, finalHour,
-				hdstudio.getList())) {
-			System.out.println("Chasut e zaet ili ne e v rabotno vreme!");
-			Menu();
-		}
 	}
 
 	private static void delReserve() {
@@ -134,8 +119,8 @@ public class HairdressStudioConsoleClient {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		//Searches in list and deletes reservation
+
+		// Searches the list and deletes reservation
 		Iterator<Reservation> it = hdstudio.getList().iterator();
 		Reservation reserve = it.next();
 		while (it.hasNext()) {
@@ -148,8 +133,7 @@ public class HairdressStudioConsoleClient {
 	private static void showList() {
 		for (Reservation res : hdstudio.listReservations()) {
 			System.out.println(res.getName() + " " + res.getPhoneNumber() + " "
-					+ res.getInitialHour().getTime() + " -> "
-					+ res.getFinalHour().getTime());
+					+ res.getInitialHour().getTime());
 		}
 	}
 

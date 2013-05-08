@@ -5,15 +5,12 @@ public class Reservation implements Comparable<Reservation> {
 	private String name;
 	private String phoneNumber;
 	private Calendar initialHour;
-	private Calendar finalHour;
 	Service service;
 
-	public Reservation(String name, String phoneNumber, Calendar initialHour,
-			Calendar finalHour, Service service) {
+	public Reservation(String name, String phoneNumber, Calendar initialHour, Service service) {
 		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.initialHour = initialHour;
-		this.finalHour = finalHour;
 		this.service = service;
 	}
 
@@ -28,9 +25,9 @@ public class Reservation implements Comparable<Reservation> {
 	public Calendar getInitialHour() {
 		return initialHour;
 	}
-
-	public Calendar getFinalHour() {
-		return finalHour;
+	
+	public Service getService() {
+		return service;
 	}
 	
 	public int compareTo(Reservation o) {
