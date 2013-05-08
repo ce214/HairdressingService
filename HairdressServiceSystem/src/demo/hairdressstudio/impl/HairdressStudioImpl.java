@@ -1,6 +1,5 @@
 package demo.hairdressstudio.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import demo.hairdressstudio.Reservation;
 
 public class HairdressStudioImpl implements HairdressStudio {
 
-	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
 	private List<Reservation> list;
 
 	public HairdressStudioImpl() {
@@ -23,6 +21,7 @@ public class HairdressStudioImpl implements HairdressStudio {
 	public boolean addReservation(Reservation reservation) {
 		if (isValid(reservation)) {
 			list.add(reservation);
+			Collections.sort(list);
 			return true;
 		} else {
 			return false;
@@ -30,7 +29,7 @@ public class HairdressStudioImpl implements HairdressStudio {
 	}
 
 	private boolean isValid(Reservation reservation) {
-		return VerifyDate.isReservationOK(reservation, list);
+		return ReservationValidator.isReservationOK(reservation, list);
 	}
 
 	@Override

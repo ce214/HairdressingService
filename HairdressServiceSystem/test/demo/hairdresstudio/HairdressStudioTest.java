@@ -149,8 +149,10 @@ public class HairdressStudioTest {
 		HairdressStudio test = new HairdressStudioImpl();
 		Calendar initDate = Calendar.getInstance();
 		Calendar finDate = Calendar.getInstance();
-		initDate.set(2013, 3, 22, 15, 00, 00);
-		finDate.set(2013, 3, 22, 15, 30, 00);
+		initDate.set(2013, initDate.get(Calendar.MONTH),
+				initDate.get(Calendar.DAY_OF_MONTH) + 1, 15, 00, 00);
+		finDate.set(2013, finDate.get(Calendar.MONTH),
+				finDate.get(Calendar.DAY_OF_MONTH) + 1, 15, 30, 00);
 
 		PrintStream originalOut = System.out;
 		OutputStream os = new ByteArrayOutputStream();
@@ -165,7 +167,8 @@ public class HairdressStudioTest {
 					+ res.getInitialHour().getTime());
 		}
 
-		Assert.assertEquals("Asd 0823 Mon Apr 22 15:00:00 EEST 2013", os.toString());
+		Assert.assertEquals(
+				"Asd 0823 " + initDate.getTime(), os.toString());
 		System.setOut(originalOut);
 	}
 }
