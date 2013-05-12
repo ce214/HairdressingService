@@ -21,7 +21,7 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 9, 00);
 		Reservation reservation = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result = test.addReservation(reservation);
 		Assert.assertTrue(result);
 	}
@@ -32,7 +32,7 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 8, 59);
 		Reservation reservation = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result = test.addReservation(reservation);
 		Assert.assertFalse(result);
 	}
@@ -43,7 +43,7 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 17, 31);
 		Reservation reservation = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result = test.addReservation(reservation);
 		Assert.assertFalse(result);
 	}
@@ -54,11 +54,11 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 15, 00);
 		Reservation reservation1 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result1 = test.addReservation(reservation1);
 		initDate.set(2013, 04, 19, 15, 30);
 		Reservation reservation2 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result2 = test.addReservation(reservation2);
 		Assert.assertTrue(result1);
 		Assert.assertFalse(result2);
@@ -70,11 +70,11 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 15, 00);
 		Reservation reservation1 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result1 = test.addReservation(reservation1);
 		initDate.set(2013, 04, 19, 15, 29);
 		Reservation reservation2 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result2 = test.addReservation(reservation2);
 		Assert.assertTrue(result1);
 		Assert.assertFalse(result2);
@@ -86,11 +86,11 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 15, 00);
 		Reservation reservation1 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result1 = test.addReservation(reservation1);
 		initDate.set(2013, 04, 19, 14, 30);
 		Reservation reservation2 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result2 = test.addReservation(reservation2);
 		Assert.assertTrue(result1);
 		Assert.assertFalse(result2);
@@ -102,11 +102,11 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 15, 00);
 		Reservation reservation1 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result1 = test.addReservation(reservation1);
 		initDate.set(2013, 04, 19, 14, 31);
 		Reservation reservation2 = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		boolean result2 = test.addReservation(reservation2);
 		Assert.assertTrue(result1);
 		Assert.assertFalse(result2);
@@ -117,7 +117,7 @@ public class HairdressStudioTest {
 		Calendar initDate = Calendar.getInstance();
 		initDate.set(2013, 04, 19, 15, 00);
 		Reservation reservation = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		HairdressStudio test = new HairdressStudioImpl();
 		test.addReservation(reservation);
 		boolean result = test.delReservation(reservation);
@@ -136,7 +136,7 @@ public class HairdressStudioTest {
 		System.setOut(ps);
 
 		Reservation reservation = new Reservation("Asd", "0823", initDate,
-				new ManHaircut("Hans", 30, 5));
+				new ManHaircut(30, 5));
 		test.addReservation(reservation);
 		for (Reservation res : test.listReservations()) {
 			System.out.print(res.getName() + " " + res.getPhoneNumber() + " "

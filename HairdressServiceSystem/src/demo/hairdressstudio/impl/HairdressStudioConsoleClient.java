@@ -21,7 +21,7 @@ public class HairdressStudioConsoleClient {
 	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
 	static HairdressStudio hdstudio = new HairdressStudioImpl();
 	static Service service;
-
+	
 	static void Menu() {
 		Scanner s = new Scanner(System.in);
 		while (true) {
@@ -60,12 +60,12 @@ public class HairdressStudioConsoleClient {
 
 		switch (s.nextInt()) {
 		case 1:
-			service = HaircutFactory.constructManHaircut(name);
+			service = HaircutFactory.constructManHaircut();
 			inputReserve(service.getDuration());
 			reserve = HaircutFactory.constructReservation(name, phoneNumber, initialHour, service);
 			break;
 		case 2: 
-			service = HaircutFactory.constructWomanHaircut(name);
+			service = HaircutFactory.constructWomanHaircut();
 			inputReserve(service.getDuration());
 			reserve = HaircutFactory.constructReservation(name, phoneNumber, initialHour, service);
 			break;

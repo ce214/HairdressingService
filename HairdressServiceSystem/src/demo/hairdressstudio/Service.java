@@ -4,5 +4,4 @@ public interface Service{
 	
 	public double getPrice();
 	public long getDuration();
-	public String getName();
 }

@@ -8,18 +8,22 @@ import java.util.List;
 
 import demo.hairdressstudio.HairdressStudio;
 import demo.hairdressstudio.Reservation;
+import demo.hairdressstudio.database.MySQLAccess;
 
 public class HairdressStudioImpl implements HairdressStudio {
 
 	private List<Reservation> list;
+	MySQLAccess db;
 
 	public HairdressStudioImpl() {
-		list = new ArrayList<Reservation>();
+		db = new MySQLAccess();
+		list = db.getListFromDataBase();
 	}
 
 	@Override
 	public boolean addReservation(Reservation reservation) {
 		if (isValid(reservation)) {
+			db.addReservation(reservation);
 			list.add(reservation);
 			Collections.sort(list);
 			return true;
@@ -43,7 +47,8 @@ public class HairdressStudioImpl implements HairdressStudio {
 			while (it.hasNext()) {
 				Reservation reserve = it.next();
 
-				if (reserve.getInitialHour().get(Calendar.DATE) == curr.get(Calendar.DATE)) {
+				if (reserve.getInitialHour().get(Calendar.DATE) == curr
+						.get(Calendar.DATE)) {
 					threeDayList.add(reserve);
 				}
 			}
