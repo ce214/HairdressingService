@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -88,5 +89,47 @@ public class MySQLAccess {
 			System.out.println(e.getMessage());
 		}
 		return reservations;
+	}
+
+	/*public void clearTable() {
+		try {
+			conn = DriverManager
+					.getConnection(url + dbName, userName, password);
+
+			Statement stmt = (Statement) conn.createStatement();
+			stmt.executeUpdate("TRUNCATE TABLE reservations");
+
+			stmt.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
+
+	public boolean delReservationFromDataBase(Reservation res) {
+		try {
+			conn = DriverManager
+					.getConnection(url + dbName, userName, password);
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
+			String date = sdf.format(res.getInitialHour().getTime());
+			sdf = new SimpleDateFormat("HH:mm:ss");
+			String time = sdf.format(res.getInitialHour().getTime());
+
+			pst = (PreparedStatement) conn.prepareStatement("DELETE FROM reservations WHERE date='"
+					+ date + "' AND time='" + time + "'");
+			pst.executeUpdate();
+			
+			pst.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
 }

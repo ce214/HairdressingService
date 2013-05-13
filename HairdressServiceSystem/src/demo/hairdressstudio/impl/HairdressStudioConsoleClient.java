@@ -3,7 +3,6 @@ package demo.hairdressstudio.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -21,7 +20,7 @@ public class HairdressStudioConsoleClient {
 	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
 	static HairdressStudio hdstudio = new HairdressStudioImpl();
 	static Service service;
-	
+
 	static void Menu() {
 		Scanner s = new Scanner(System.in);
 		while (true) {
@@ -52,7 +51,7 @@ public class HairdressStudioConsoleClient {
 
 	private static void reserve() {
 		Reservation reserve = null;
-		
+
 		Scanner s = new Scanner(System.in);
 
 		System.out.println("1. Mujka podstrijka");
@@ -62,15 +61,17 @@ public class HairdressStudioConsoleClient {
 		case 1:
 			service = HaircutFactory.constructManHaircut();
 			inputReserve(service.getDuration());
-			reserve = HaircutFactory.constructReservation(name, phoneNumber, initialHour, service);
+			reserve = HaircutFactory.constructReservation(name, phoneNumber,
+					initialHour, service);
 			break;
-		case 2: 
+		case 2:
 			service = HaircutFactory.constructWomanHaircut();
 			inputReserve(service.getDuration());
-			reserve = HaircutFactory.constructReservation(name, phoneNumber, initialHour, service);
+			reserve = HaircutFactory.constructReservation(name, phoneNumber,
+					initialHour, service);
 			break;
 		}
-		if(hdstudio.addReservation(reserve))
+		if (hdstudio.addReservation(reserve))
 			System.out.println("Success!");
 		else
 			System.out.println("No Success!");
@@ -104,7 +105,7 @@ public class HairdressStudioConsoleClient {
 	private static void delReserve() {
 		Scanner s = new Scanner(System.in);
 
-		Date dateToDel = new Date();
+		Calendar dateToDel = Calendar.getInstance();
 		do {
 			System.out.print("Data: ");
 			reserveDate = s.nextLine();
@@ -115,17 +116,25 @@ public class HairdressStudioConsoleClient {
 			hour = s.nextLine();
 		} while (!UserInputValidation.isThisHourValid(hour));
 		try {
-			dateToDel = sdf.parse(reserveDate + " " + hour);
+			dateToDel.setTime(sdf.parse(reserveDate + " " + hour));
+			dateToDel.set(Calendar.SECOND, 0);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
 		// Searches the list and deletes reservation
 		Iterator<Reservation> it = hdstudio.getList().iterator();
-		Reservation reserve = it.next();
+		Reservation reserve;
 		while (it.hasNext()) {
-			if (reserve.getInitialHour().equals(dateToDel)) {
+			reserve = it.next();
+			if (reserve.getInitialHour().get(Calendar.DATE) == dateToDel
+					.get(Calendar.DATE)
+					&& reserve.getInitialHour().get(Calendar.HOUR_OF_DAY) == dateToDel
+							.get(Calendar.HOUR_OF_DAY)
+					&& reserve.getInitialHour().get(Calendar.MINUTE) == dateToDel
+							.get(Calendar.MINUTE)) {
 				hdstudio.delReservation(reserve);
+				break;
 			}
 		}
 	}

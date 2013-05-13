@@ -12,9 +12,11 @@ public class DatabeseLogic {
 	@SuppressWarnings("deprecation")
 	public static Calendar getCalendarDate(Date date, Time time) {
 		Calendar cal = Calendar.getInstance();
-		cal.set(date.getYear(), date.getMonth(), date.getDate(),
-				time.getHours(), time.getMinutes(), 00);
-
+		cal.setTime(date);
+		cal.set(Calendar.HOUR_OF_DAY, time.getHours());
+		cal.set(Calendar.MINUTE, time.getMinutes());
+		cal.set(Calendar.SECOND, 0);
+		
 		return cal;
 	}
 
