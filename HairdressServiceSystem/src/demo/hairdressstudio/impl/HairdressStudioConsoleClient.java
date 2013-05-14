@@ -17,7 +17,7 @@ public class HairdressStudioConsoleClient {
 	static String reserveDate;
 	static String hour;
 	static Calendar initialHour = Calendar.getInstance();
-	static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
+	static SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd HH:mm");
 	static HairdressStudio hdstudio = new HairdressStudioImpl();
 	static Service service;
 

@@ -49,7 +49,7 @@ public class MySQLAccess {
 					.getTime().getTime());
 
 			pst = (PreparedStatement) conn
-					.prepareStatement("insert into  reservations values (default, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement("insert into reservations values (default, ?, ?, ?, ?, ?, ?)");
 			pst.setString(1, res.getName());
 			pst.setString(2, res.getPhoneNumber());
 			pst.setDate(3, date);
@@ -91,37 +91,20 @@ public class MySQLAccess {
 		return reservations;
 	}
 
-	/*public void clearTable() {
-		try {
-			conn = DriverManager
-					.getConnection(url + dbName, userName, password);
-
-			Statement stmt = (Statement) conn.createStatement();
-			stmt.executeUpdate("TRUNCATE TABLE reservations");
-
-			stmt.close();
-			conn.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-
 	public boolean delReservationFromDataBase(Reservation res) {
 		try {
 			conn = DriverManager
 					.getConnection(url + dbName, userName, password);
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String date = sdf.format(res.getInitialHour().getTime());
 			sdf = new SimpleDateFormat("HH:mm:ss");
 			String time = sdf.format(res.getInitialHour().getTime());
-
-			pst = (PreparedStatement) conn.prepareStatement("DELETE FROM reservations WHERE date='"
-					+ date + "' AND time='" + time + "'");
+			pst = (PreparedStatement) conn
+					.prepareStatement("DELETE FROM reservations WHERE date='"
+							+ date + "' AND time='" + time + "'");
 			pst.executeUpdate();
-			
+
 			pst.close();
 			conn.close();
 		} catch (SQLException e) {

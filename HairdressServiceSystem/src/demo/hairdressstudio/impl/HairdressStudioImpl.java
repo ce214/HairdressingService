@@ -63,10 +63,11 @@ public class HairdressStudioImpl implements HairdressStudio {
 
 	@Override
 	public boolean delReservation(Reservation reservation) {
-		if (db.delReservationFromDataBase(reservation)
-				& list.remove(reservation))
+		if (db.delReservationFromDataBase(reservation)) {
+			list.clear();
+			list = db.getListFromDataBase();
 			return true;
-		else
+		} else
 			return false;
 	}
 }

@@ -13,7 +13,7 @@ public class UserInputValidation {
 			return false;
 		}
 
-		sdf = new SimpleDateFormat("dd/MM/yy");
+		sdf = new SimpleDateFormat("yy/MM/dd");
 		sdf.setLenient(false);
 
 		try {

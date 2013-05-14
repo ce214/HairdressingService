@@ -10,7 +10,8 @@ public class ReservationValidator {
 
 	public static boolean isReservationOK(Reservation res,
 			List<Reservation> list) {
-		Calendar finHour = calculateFinHour(res.getInitialHour(), res.getService().getDuration());
+		Calendar finHour = calculateFinHour(res.getInitialHour(), res
+				.getService().getDuration());
 
 		boolean isOK = true;
 		Iterator<Reservation> it = list.iterator();
@@ -24,15 +25,21 @@ public class ReservationValidator {
 
 			while (it.hasNext() && isOK) {
 				reserve = it.next();
-				if ((res.getInitialHour().after(reserve.getInitialHour()) && res
-						.getInitialHour().before(finHour))
+				if ((res.getInitialHour().after(reserve.getInitialHour()) & res
+						.getInitialHour().before(
+								calculateFinHour(reserve.getInitialHour(),
+										reserve.getService().getDuration())))
 						|| res.getInitialHour()
 								.equals(reserve.getInitialHour())) {
 					isOK = false;
 				} else {
 					if (finHour.after(reserve.getInitialHour())
-							&& finHour.before(finHour))
+							& finHour.before(calculateFinHour(reserve
+									.getInitialHour(), reserve.getService()
+									.getDuration())))
 						isOK = false;
+					if (finHour.equals(reserve.getInitialHour()))
+						isOK = true;
 				}
 			}
 		}
